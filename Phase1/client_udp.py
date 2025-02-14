@@ -1,6 +1,6 @@
 import socket
 
-
+# Client UDP
 def main():
     server_address = ('localhost', 8081)  # Adresse du serveur UDP (doit correspondre au serveur)
 

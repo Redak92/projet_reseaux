@@ -1,6 +1,7 @@
 import socket
 
 
+# Client TCP
 def main():
     server_address = ('localhost', 8080)  # Adresse du serveur TCP (doit correspondre au serveur)
     # Création du socket TCP
