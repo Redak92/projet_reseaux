@@ -4,7 +4,7 @@ import math
 import pickle
 
 max_length = 65000
-host = "127.0.0.1"
+host = "192.168.1.20"
 port = 5000
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
