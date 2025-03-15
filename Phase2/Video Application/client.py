@@ -13,13 +13,10 @@ cap = cv2.VideoCapture(0)
 ret, frame = cap.read()
 
 while ret:
-    # compress frame
     retval, buffer = cv2.imencode(".jpg", frame)
 
     if retval:
-        # convert to byte array
         buffer = buffer.tobytes()
-        # get size of the frame
         buffer_size = len(buffer)
 
         num_of_packs = 1
