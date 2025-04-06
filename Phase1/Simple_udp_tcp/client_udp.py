@@ -1,4 +1,4 @@
-import socket
+from IP.UDP import SocketUDP
 
 # Client UDP
 def main():
