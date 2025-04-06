@@ -131,7 +131,9 @@ class SocketIP():
             packet, _ = self.reicv_socket.recvfrom(65535)
             source_ip, _, _ = self.decapsulate_ip(packet)
             print(f"Packet received from {source_ip}: {packet.hex()}")
-
+    @staticmethod
+    def print_raw_bytes(data: bytes):
+        print(" ".join(f"{byte:02x}" for byte in data))
 
 if __name__ == "__main__":
     s = SocketIP(BASE_IP)
