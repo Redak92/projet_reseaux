@@ -1,7 +1,7 @@
 import socket
 
 
-def receive_file(save_path='../Received/received_file.pdf', server_address=('0.0.0.0', 9000)):
+def receive_file(save_path='../received/received_file.pdf', server_address=('0.0.0.0', 9000)):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.bind(server_address)
         sock.listen(1)
