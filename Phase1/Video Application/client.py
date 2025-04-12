@@ -1,15 +1,17 @@
 import cv2
-import socket
+from protocols.UDP import UDPSocket
 import math
 import pickle
 
 max_length = 65000
-host = "localhost"
+host = "192.168.10.2"
 port = 5000
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock = UDPSocket("192.168.10.1", 12345)
+#sudo modprobe v4l2loopback devices=1 video_nr=10 card_label="FakeCam" exclusive_caps=1
+#ffmpeg -re -stream_loop -1 -i sample.mp4 -f v4l2 /dev/video10
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("/dev/video10")
 ret, frame = cap.read()
 
 while ret:
