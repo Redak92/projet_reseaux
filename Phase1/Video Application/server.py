@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 import queue
 
-host = "0.0.0.0"
+host = "192.168.10.2"
 port = 5000
 max_length = 65540
 
