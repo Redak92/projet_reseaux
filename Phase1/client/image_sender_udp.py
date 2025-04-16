@@ -1,6 +1,5 @@
 import cv2
 from protocols.UDP import UDPSocket 
-import pickle
 
 HOST_ADDR = ('192.168.10.1', 12345)
 SERV_ADDR = ('192.168.10.2', 5001)

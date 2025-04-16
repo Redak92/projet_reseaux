@@ -1,29 +1,18 @@
-import socket
+from protocols.TCP import TCPSocket
 
+HOST_ADDR = "192.168.10.1"
+HOST_PORT = 12345
+SERV_ADDR = '192.168.10.2'
+SERV_PORT = 8080  # Adresse du serveur TCP (doit correspondre au serveur)
 
+print("Heyy")
 # Client TCP
 def main():
-    server_address = ('localhost', 8080)  # Adresse du serveur TCP (doit correspondre au serveur)
-    # Création du socket TCP
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        try:
-            sock.connect(server_address)  # Établit une connexion avec le serveur
-            print(f'Connecté au serveur {server_address}')
+    sock = TCPSocket(src_ip=HOST_ADDR, src_port=HOST_PORT)
 
-            while True:
-                message = input("Entrez le message à envoyer (ou 'exit' pour quitter) : ")
-                if message.lower() == 'exit':
-                    print("Fermeture du client.")
-                    break
-                print(f"Envoi de {message} au serveur {server_address}")
-                sock.sendall(message.encode())  # Envoie le message au serveur
-                # Attendre une réponse du serveur
-                data = sock.recv(1024).decode()
-                print(f"Réponse du serveur : {data}")
-
-        except Exception as e:
-            print(f'Erreur: {e}')
-
+    settings = sock.handshake(SERV_ADDR, SERV_PORT)
+    settings = sock.send_data_terminal(SERV_ADDR, SERV_PORT, settings[0], settings[1], settings[2])
+    sock.end_tcp(SERV_ADDR, SERV_PORT, settings[0] + 1, settings[1], settings[2])
 
 if __name__ == "__main__":
     main()

@@ -13,7 +13,7 @@ def handle_tcp_client(client_socket, addr):
                 print(f"Send with TCP from IP : {addr[0]} with message {message}")
                 # Répondre au client
                 réponse = f"Message {message} à été bien reçu"
-                client_socket.sendall(réponse.encode())
+                #client_socket.sendall(réponse.encode())
         except Exception as e:
             print(f"Erreur avec le client {addr[0]} : {e}")
 

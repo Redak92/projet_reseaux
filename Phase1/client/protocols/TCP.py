@@ -1,8 +1,13 @@
-from IP import IPSocket
+from .IP import IPSocket
 from scapy.all import TCP, Raw, send, IP
 import time
 import random
 import math
+
+HOST_ADDR = "192.168.10.1"
+HOST_PORT = 12345
+SERV_ADDR = "192.168.10.2"
+SERV_PORT = 8080
 class TCPSocket(IPSocket):
     def __init__(self, src_ip=None, src_port=0):
         super().__init__(src_ip)
@@ -118,21 +123,32 @@ class TCPSocket(IPSocket):
             if right > len(data):
                 right = len(data)
             data_to_send = data[left:right]
-            opt = [("NOP", None), ("NOP", None), ("Timestamp", (self.get_time(), ts[1]))]
+            ts = (self.get_time(), ts[1])
+            opt = [("NOP", None), ("NOP", None), ("Timestamp", ts)]
             self.send_tcp(ip, port, seq, ack, data_to_send, flags, options=opt)
             seq += len(data_to_send)
 
-        return seq, ack, opt
-
+        return seq, ack, ts
+    
+    def send_data_terminal(self, address: str, port: int, seq: int, ack: int, ts: tuple[int, int]):
+        a = input("Quel message envoyer ?")
+        while True:
+            if a == "exit":
+                break
+            data = bytes(a, encoding="utf-8")
+            print("Settings", seq, ack, ts)
+            seq, ack, ts = self.send_data(address, port, seq, ack, ts, data)
+            a = input("Quel message envoyer ?") 
+        return seq, ack, ts
 if __name__ == "__main__":
     if input("Want to start listening ?") == "y":
         s = TCPSocket("192.168.10.2", 8080)
         s.listen_tcp("veth1")
     else:
-        s = TCPSocket("192.168.10.1", 12345)
-        settings = s.handshake("192.168.10.2", 8080)
-        time.sleep(5)
-        s.end_tcp("192.168.10.2", 8080, settings[0] + 1, settings[1], settings[2])
+        s = TCPSocket(HOST_ADDR, HOST_PORT)
+        settings = s.handshake(SERV_PORT, SERV_PORT)
+        settings = s.send_data_terminal(SERV_ADDR, SERV_PORT, settings[0], settings[1], settings[2])
+        s.end_tcp(SERV_ADDR, SERV_PORT, settings[0] + 1, settings[1], settings[2])
 
 
         
